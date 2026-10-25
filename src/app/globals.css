@@ -1,28 +1,74 @@
 @import "tailwindcss";
 
+/*
+  One palette: an indigo "brand" hue (265) plus greys tinted with the same hue ("ink").
+  Red is used only for destructive actions and errors.
+*/
+@theme {
+  --color-brand-50: oklch(0.97 0.014 265);
+  --color-brand-100: oklch(0.94 0.03 265);
+  --color-brand-200: oklch(0.88 0.055 265);
+  --color-brand-300: oklch(0.8 0.085 265);
+  --color-brand-400: oklch(0.69 0.125 265);
+  --color-brand-500: oklch(0.58 0.155 265);
+  --color-brand-600: oklch(0.5 0.16 265);
+  --color-brand-700: oklch(0.43 0.14 265);
+  --color-brand-800: oklch(0.35 0.11 265);
+  --color-brand-900: oklch(0.28 0.08 265);
+  --color-brand-950: oklch(0.2 0.05 265);
+
+  --color-ink-50: oklch(0.985 0.004 265);
+  --color-ink-100: oklch(0.965 0.007 265);
+  --color-ink-200: oklch(0.92 0.012 265);
+  --color-ink-300: oklch(0.86 0.016 265);
+  --color-ink-400: oklch(0.71 0.02 265);
+  --color-ink-500: oklch(0.56 0.022 265);
+  --color-ink-600: oklch(0.45 0.022 265);
+  --color-ink-700: oklch(0.37 0.02 265);
+  --color-ink-800: oklch(0.28 0.018 265);
+  --color-ink-900: oklch(0.21 0.015 265);
+  --color-ink-950: oklch(0.16 0.012 265);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-ink-50);
+  --foreground: var(--color-ink-900);
+  --surface: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-ink-950);
+    --foreground: var(--color-ink-100);
+    --surface: var(--color-ink-900);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-brand-200);
+  color: var(--color-ink-950);
+}
+
+/* One consistent focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Tailwind v4 removed the pointer cursor from buttons; bring it back app-wide. */
@@ -80,19 +126,19 @@ body {
   margin: 0.15em 0;
 }
 .doc-content blockquote {
-  border-left: 3px solid #d4d4d4;
+  border-left: 3px solid var(--color-brand-200);
   padding-left: 1rem;
-  color: #737373;
+  color: var(--color-ink-500);
 }
 .doc-content code {
-  background: rgb(0 0 0 / 0.06);
+  background: var(--color-brand-50);
   border-radius: 4px;
   padding: 0.1em 0.3em;
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.9em;
 }
 .doc-content pre {
-  background: rgb(0 0 0 / 0.06);
+  background: var(--color-brand-50);
   border-radius: 6px;
   padding: 0.75rem 1rem;
   overflow-x: auto;
@@ -102,6 +148,6 @@ body {
   padding: 0;
 }
 .doc-content hr {
-  border-color: #e5e5e5;
+  border-color: var(--color-ink-200);
   margin: 1.5em 0;
 }

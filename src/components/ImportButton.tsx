@@ -87,7 +87,7 @@ export default function ImportButton() {
         type="button"
         disabled={busy}
         onClick={() => input.current?.click()}
-        className="rounded-md border border-neutral-300 px-3 py-2 text-sm font-medium hover:bg-neutral-50 disabled:opacity-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+        className="rounded-lg border border-ink-200 bg-surface px-3.5 py-2 text-sm font-medium text-ink-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700 disabled:opacity-50 dark:border-ink-700 dark:text-ink-200 dark:hover:border-brand-700 dark:hover:text-brand-200"
       >
         {progress.stage === "uploading"
           ? `Uploading… ${progress.percent}%`
@@ -98,7 +98,7 @@ export default function ImportButton() {
 
       {busy ? (
         <div className="mt-2" aria-live="polite">
-          <div className="flex justify-between gap-2 text-xs text-neutral-500">
+          <div className="flex justify-between gap-2 text-xs text-ink-500">
             <span className="truncate">{progress.fileName}</span>
             <span className="shrink-0 tabular-nums">
               {progress.stage === "uploading" ? `${progress.percent}%` : "Converting…"}
@@ -110,10 +110,10 @@ export default function ImportButton() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={percent}
-            className="mt-1 h-1.5 overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800"
+            className="mt-1 h-1.5 overflow-hidden rounded-full bg-brand-100 dark:bg-ink-800"
           >
             <div
-              className={`h-full rounded-full bg-blue-600 transition-[width] duration-200 ${
+              className={`h-full rounded-full bg-brand-600 transition-[width] duration-200 ${
                 progress.stage === "processing" ? "animate-pulse" : ""
               }`}
               style={{ width: `${percent}%` }}
@@ -121,7 +121,7 @@ export default function ImportButton() {
           </div>
         </div>
       ) : (
-        <p className="mt-1 text-xs text-neutral-500">Supports {LABEL}</p>
+        <p className="mt-1 text-xs text-ink-500">Supports {LABEL}</p>
       )}
 
       {error && (

@@ -22,10 +22,10 @@ function ToolbarButton({ label, shortcut, active, disabled, onClick, children }:
       // Keep focus (and the selection) in the editor.
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
-      className={`flex h-8 min-w-8 items-center justify-center rounded px-2 text-sm transition-colors disabled:opacity-40 ${
+      className={`flex h-8 min-w-8 items-center justify-center rounded-md px-2 text-sm transition-colors disabled:opacity-40 ${
         active
-          ? "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200"
-          : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          ? "bg-brand-100 text-brand-800 dark:bg-brand-900/50 dark:text-brand-200"
+          : "text-ink-700 hover:bg-ink-100 dark:text-ink-200 dark:hover:bg-ink-800"
       }`}
     >
       {children}
@@ -33,7 +33,7 @@ function ToolbarButton({ label, shortcut, active, disabled, onClick, children }:
   );
 }
 
-const Divider = () => <span className="mx-1 h-5 w-px bg-neutral-200 dark:bg-neutral-700" />;
+const Divider = () => <span className="mx-1 h-5 w-px bg-ink-200 dark:bg-ink-700" />;
 
 type BlockStyle = "paragraph" | "h1" | "h2" | "h3";
 
@@ -56,7 +56,7 @@ export default function Toolbar({ editor }: { editor: Editor }) {
     <div
       role="toolbar"
       aria-label="Formatting"
-      className="flex flex-wrap items-center gap-0.5 rounded-lg border border-neutral-200 bg-white px-2 py-1 dark:border-neutral-800 dark:bg-neutral-900"
+      className="flex flex-wrap items-center gap-0.5 rounded-xl border border-ink-200 bg-surface px-2 py-1.5 shadow-sm dark:border-ink-800"
     >
       <ToolbarButton label="Undo" shortcut="Ctrl+Z" disabled={!editor.can().undo()} onClick={() => chain().undo().run()}>
         ↶
@@ -70,7 +70,7 @@ export default function Toolbar({ editor }: { editor: Editor }) {
         aria-label="Text style"
         value={currentBlock(editor)}
         onChange={(e) => setBlock(e.target.value as BlockStyle)}
-        className="h-8 rounded bg-transparent px-1 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+        className="h-8 rounded-md bg-transparent px-1.5 text-sm hover:bg-ink-100 dark:hover:bg-ink-800"
       >
         <option value="paragraph">Normal text</option>
         <option value="h1">Heading 1</option>

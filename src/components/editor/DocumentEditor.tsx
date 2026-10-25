@@ -92,18 +92,27 @@ export default function DocumentEditor({ doc, role, permissions, initialShares }
   return (
     <main className="mx-auto max-w-4xl px-4 py-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/" className="text-sm text-neutral-500 hover:underline">
+        <Link
+          href="/"
+          className="rounded-md px-2 py-1 text-sm text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-900 dark:hover:bg-ink-800 dark:hover:text-ink-100"
+        >
           ← All documents
         </Link>
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+          <span
+            className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+              role === "viewer"
+                ? "bg-ink-100 text-ink-600 dark:bg-ink-800 dark:text-ink-300"
+                : "bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-200"
+            }`}
+          >
             {ROLE_BADGE[role]}
           </span>
           {canShare && (
             <button
               type="button"
               onClick={() => setShareOpen(true)}
-              className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+              className="rounded-lg bg-brand-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
             >
               Share{shares.length > 0 && ` (${shares.length})`}
             </button>
@@ -113,7 +122,7 @@ export default function DocumentEditor({ doc, role, permissions, initialShares }
               type="button"
               onClick={onDelete}
               disabled={deleting}
-              className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-neutral-700 dark:hover:bg-red-950"
+              className="rounded-lg border border-ink-200 bg-surface px-3.5 py-1.5 text-sm text-red-600 transition-colors hover:border-red-200 hover:bg-red-50 disabled:opacity-50 dark:border-ink-700 dark:hover:bg-red-950"
             >
               {deleting ? "Deleting…" : "Delete"}
             </button>
@@ -136,17 +145,30 @@ export default function DocumentEditor({ doc, role, permissions, initialShares }
           maxLength={200}
           aria-label="Document title"
           aria-invalid={!!titleError}
-          className="w-full rounded-md bg-transparent px-1 py-1 text-2xl font-semibold outline-none hover:bg-neutral-50 focus:bg-neutral-50 read-only:hover:bg-transparent dark:hover:bg-neutral-900 dark:focus:bg-neutral-900"
+          className="w-full rounded-lg bg-transparent px-2 py-1 text-3xl font-semibold tracking-tight outline-none transition-colors hover:bg-ink-100/70 focus:bg-surface focus:ring-2 focus:ring-brand-200 read-only:hover:bg-transparent dark:hover:bg-ink-900 dark:focus:ring-brand-800"
         />
-        <div className="mt-1 flex items-center gap-3 px-1 text-xs text-neutral-500">
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 px-2 text-xs text-ink-500">
           {role !== "owner" && <span>Owned by {doc.owner.name}</span>}
           {canEdit && (
-            <span aria-live="polite" className={status === "error" ? "text-red-600" : undefined}>
+            <span
+              aria-live="polite"
+              className={`inline-flex items-center gap-1.5 ${status === "error" ? "text-red-600" : ""}`}
+            >
+              <span
+                aria-hidden
+                className={`h-1.5 w-1.5 rounded-full ${
+                  status === "error"
+                    ? "bg-red-500"
+                    : status === "saved"
+                      ? "bg-brand-400"
+                      : "animate-pulse bg-brand-500"
+                }`}
+              />
               {status === "error" && error ? `${STATUS_TEXT.error}: ${error}` : STATUS_TEXT[status]}
             </span>
           )}
           {status === "error" && (
-            <button type="button" onClick={flush} className="font-medium text-blue-600 hover:underline">
+            <button type="button" onClick={flush} className="font-medium text-brand-600 hover:underline">
               Retry
             </button>
           )}
@@ -155,22 +177,23 @@ export default function DocumentEditor({ doc, role, permissions, initialShares }
       </div>
 
       {!canEdit && (
-        <p className="mt-4 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+        <p className="mt-4 rounded-lg border border-brand-100 bg-brand-50 px-4 py-2.5 text-sm text-brand-800 dark:border-brand-900 dark:bg-brand-950 dark:text-brand-200">
           You have view-only access to this document.
         </p>
       )}
 
       {canEdit && editor && (
-        <div className="sticky top-0 z-10 mt-4 bg-[var(--background)] py-2">
+        // Sits just below the sticky 3.5rem header.
+        <div className="sticky top-14 z-20 mt-4 bg-background/90 py-2 backdrop-blur">
           <Toolbar editor={editor} />
         </div>
       )}
 
-      <div className="mt-2 rounded-lg border border-neutral-200 bg-white px-6 py-8 shadow-sm sm:px-12 dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="mt-2 min-h-[70vh] rounded-xl border border-ink-200 bg-surface px-6 py-10 shadow-sm sm:px-16 sm:py-14 dark:border-ink-800">
         {editor ? (
           <EditorContent editor={editor} />
         ) : (
-          <p className="text-sm text-neutral-400">Loading editor…</p>
+          <p className="text-sm text-ink-400">Loading editor…</p>
         )}
       </div>
 

@@ -79,16 +79,16 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
       role="dialog"
       aria-modal="true"
       aria-labelledby="share-title"
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 px-4 pt-24"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-ink-950/40 px-4 pt-24 backdrop-blur-sm"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
       onKeyDown={(e) => e.key === "Escape" && onClose()}
     >
-      <div className="w-full max-w-md rounded-xl bg-white p-5 shadow-xl dark:bg-neutral-900">
+      <div className="w-full max-w-md rounded-2xl border border-ink-200 bg-surface p-6 shadow-2xl dark:border-ink-800">
         <div className="flex items-center justify-between">
           <h2 id="share-title" className="text-lg font-semibold">
             Share document
           </h2>
-          <button type="button" onClick={onClose} aria-label="Close" className="text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200">
+          <button type="button" onClick={onClose} aria-label="Close" className="flex h-8 w-8 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-900 dark:hover:bg-ink-800 dark:hover:text-ink-100">
             ✕
           </button>
         </div>
@@ -101,13 +101,13 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email, e.g. bob@demo.com"
             aria-label="Email to share with"
-            className="min-w-0 flex-1 rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-sm dark:border-neutral-700"
+            className="min-w-0 flex-1 rounded-lg border border-ink-200 bg-surface px-3 py-2 text-sm outline-none transition-shadow focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:border-ink-700 dark:focus:ring-brand-900"
           />
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as ShareRole)}
             aria-label="Role"
-            className="rounded-md border border-neutral-300 bg-transparent px-2 text-sm dark:border-neutral-700"
+            className="rounded-lg border border-ink-200 bg-surface px-2 py-2 text-sm outline-none transition-shadow focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:border-ink-700 dark:focus:ring-brand-900"
           >
             <option value="VIEWER">Viewer</option>
             <option value="EDITOR">Editor</option>
@@ -115,32 +115,32 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            className="rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:opacity-50"
           >
             Share
           </button>
         </form>
 
         {error && (
-          <p role="alert" className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+          <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
             {error}
           </p>
         )}
 
-        <h3 className="mt-5 text-sm font-medium text-neutral-500">People with access</h3>
-        <ul className="mt-2 divide-y divide-neutral-100 dark:divide-neutral-800">
+        <h3 className="mt-6 text-xs font-semibold uppercase tracking-wide text-ink-400">People with access</h3>
+        <ul className="mt-2 divide-y divide-ink-100 dark:divide-ink-800">
           <li className="flex items-center justify-between py-2 text-sm">
             <span>
               <span className="block font-medium">{owner.name} (you)</span>
-              <span className="block text-neutral-500">{owner.email}</span>
+              <span className="block text-ink-500">{owner.email}</span>
             </span>
-            <span className="text-neutral-500">Owner</span>
+            <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900 dark:text-brand-200">Owner</span>
           </li>
           {shares.map((s) => (
             <li key={s.user.id} className="flex items-center justify-between gap-2 py-2 text-sm">
               <span className="min-w-0">
                 <span className="block truncate font-medium">{s.user.name}</span>
-                <span className="block truncate text-neutral-500">{s.user.email}</span>
+                <span className="block truncate text-ink-500">{s.user.email}</span>
               </span>
               <span className="flex shrink-0 items-center gap-2">
                 <select
@@ -148,7 +148,7 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
                   disabled={busy}
                   onChange={(e) => changeRole(s.user.id, e.target.value as ShareRole)}
                   aria-label={`Role for ${s.user.name}`}
-                  className="rounded border border-neutral-200 bg-transparent px-1 py-1 dark:border-neutral-700"
+                  className="rounded-md border border-ink-200 bg-surface px-1.5 py-1 text-sm dark:border-ink-700"
                 >
                   {(Object.keys(ROLE_LABEL) as ShareRole[]).map((r) => (
                     <option key={r} value={r}>
@@ -160,7 +160,7 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
                   type="button"
                   disabled={busy}
                   onClick={() => removeShare(s.user.id)}
-                  className="text-red-600 hover:underline disabled:opacity-50"
+                  className="rounded-md px-2 py-1 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:hover:bg-red-950"
                 >
                   Remove
                 </button>
@@ -169,7 +169,7 @@ export default function SharePanel({ documentId, owner, shares, onChange, onClos
           ))}
         </ul>
         {shares.length === 0 && (
-          <p className="mt-1 text-sm text-neutral-500">Not shared with anyone yet.</p>
+          <p className="mt-1 text-sm text-ink-500">Not shared with anyone yet.</p>
         )}
       </div>
     </div>
