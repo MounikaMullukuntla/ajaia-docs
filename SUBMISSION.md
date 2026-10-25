@@ -6,7 +6,8 @@
 |---|---|
 | Live app | `https://ajaia-docs-tawny.vercel.app/login` |
 | Walkthrough video | see [VIDEO.txt](VIDEO.txt) |
-| Source code | this folder (also at https://github.com/MounikaMullukuntla/ajaia-docs) |
+| Source code (Google Drive, without `node_modules`) | https://drive.google.com/drive/folders/1V3oSL8201drE_ZJA1ANgOC0RJl-0jNT6?usp=sharing |
+| Source code (GitHub) | https://github.com/MounikaMullukuntla/ajaia-docs |
 
 ## Test accounts
 
