@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
+import { editorExtensions } from "@/lib/editor-extensions";
 import Toolbar from "./Toolbar";
 import SharePanel from "./SharePanel";
 import { useAutosave, type SaveStatus } from "./useAutosave";
@@ -42,7 +41,7 @@ export default function DocumentEditor({ doc, role, permissions, initialShares }
   const [deleting, setDeleting] = useState(false);
 
   const editor = useEditor({
-    extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } }), Underline],
+    extensions: editorExtensions,
     content: doc.content,
     editable: canEdit,
     // Avoid hydration mismatches: render the editor on the client only.
