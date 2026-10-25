@@ -27,3 +27,35 @@ export async function getDocumentForUser(userId: string, documentId: string) {
 
   return { document, role, permissions: PERMISSIONS[role] };
 }
+
+// The two dashboard lists: documents the user owns, and documents shared with them.
+// List fields only (no content), most recently updated first.
+export async function listDocumentsForUser(userId: string) {
+  const [owned, shares] = await Promise.all([
+    prisma.document.findMany({
+      where: { ownerId: userId },
+      select: { id: true, title: true, updatedAt: true, _count: { select: { shares: true } } },
+      orderBy: { updatedAt: "desc" },
+    }),
+    prisma.documentShare.findMany({
+      where: { userId },
+      select: {
+        role: true,
+        document: {
+          select: {
+            id: true,
+            title: true,
+            updatedAt: true,
+            owner: { select: { name: true, email: true } },
+          },
+        },
+      },
+      orderBy: { document: { updatedAt: "desc" } },
+    }),
+  ]);
+
+  return {
+    owned: owned.map(({ _count, ...d }) => ({ ...d, shareCount: _count.shares })),
+    shared: shares.map((s) => ({ ...s.document, role: s.role })),
+  };
+}
