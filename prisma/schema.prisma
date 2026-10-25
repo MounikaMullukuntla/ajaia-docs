@@ -30,13 +30,21 @@ model Document {
   @@index([ownerId])
 }
 
+// Role granted to a user a document is shared with. The owner is implicit (Document.ownerId).
+enum ShareRole {
+  VIEWER
+  EDITOR
+}
+
 model DocumentShare {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   documentId String
   userId     String
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
+  // Least privilege by default: sharing grants read-only access unless EDITOR is chosen.
+  role       ShareRole @default(VIEWER)
+  document   Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
 
   @@unique([documentId, userId])
   @@index([userId])
