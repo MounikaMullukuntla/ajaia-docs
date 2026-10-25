@@ -25,6 +25,19 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Tailwind v4 removed the pointer cursor from buttons; bring it back app-wide. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+  button:disabled,
+  select:disabled {
+    cursor: not-allowed;
+  }
+}
+
 /* Document body. Tailwind resets headings and lists, so restore readable defaults. */
 .doc-content {
   min-height: 55vh;
